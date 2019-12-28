@@ -33,7 +33,7 @@ def load_infos():
         return
 
 
-def slack(user, icon_url, msg):
+def slack(slack_url, user, icon_url, msg):
     """Post message to slack
     """
     payload = {
@@ -44,16 +44,18 @@ def slack(user, icon_url, msg):
         "text": msg,
     }
     data = {"payload": json.dumps(payload)}
-    res = requests.post(SLACK_URL, data, verify=False)
+    res = requests.post(slack_url, data, verify=False)
 
 
-def notify_new_tracks(tracks):
+def notify_new_tracks(slack_url, tracks):
     """Notify tracks added since last execution
     """
     last_execution = load_infos()
     for idx, track in enumerate(tracks):
         track_added_at = parser.parse(track["added_at"])
+        if (not last_execution or track_added_at > last_execution):
             slack(
+                slack_url,
                 user=track["added_by"]["id"],
                 icon_url=track["track"]["album"]["images"][0]["url"],
                 msg="<{}|{}>".format(
@@ -91,14 +93,17 @@ def strip_uri(ctx, param, value):
 @click.argument(
     "playlist_uri", type=str, metavar="PLAYLIST_URI", nargs=1, callback=strip_uri
 )
+@click.argument(
+    "slack_url", type=str, metavar="SLACK_CHANNEL_URL", nargs=1
+)
 @click.option("-v", "--verbose", count=True)
 @click.version_option(__VERSION__)
-def sporadub(user, playlist_uri, verbose):
+def sporadub(user, playlist_uri, slack_url, verbose):
     token = auth(user)
     sp = spotipy.Spotify(auth=token)
 
     tracks = sp.user_playlist_tracks(user, playlist_id=playlist_uri)["items"]
-    notify_new_tracks(tracks)
+    notify_new_tracks(slack_url, tracks)
 
 
 if __name__ == "__main__":
