@@ -2,3 +2,4 @@ credentials.sh
 .direnv
 .envrc
 _session.py
+.cache*
