@@ -1,2 +1,5 @@
+click
 spotipy
 python-dateutil
+requests
+black
