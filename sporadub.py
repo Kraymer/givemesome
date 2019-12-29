@@ -10,9 +10,6 @@ import spotipy
 import spotipy.util as util
 
 SESSION_FILENAME = "_session.py"
-SLACK_URL = (
-    "https://hooks.slack.com/services/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"
-)
 __VERSION__ = "0.0.1"
 
 
