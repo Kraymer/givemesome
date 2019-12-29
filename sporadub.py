@@ -55,8 +55,10 @@ def notify_new_tracks(slack_url, tracks):
                 slack_url,
                 user=track["added_by"]["id"],
                 icon_url=track["track"]["album"]["images"][0]["url"],
-                msg="<{}|{}>".format(
-                    track["track"]["external_urls"]["spotify"], track["track"]["name"],
+                msg="<{}|{} - {}>".format(
+                    track["track"]["external_urls"]["spotify"],
+                    track["track"]["artists"][0]["name"],
+                    track["track"]["name"],
                 ),
             )
     if track_added_at:
