@@ -38,6 +38,7 @@ def slack(slack_url, user, icon_url, msg):
         "icon_url": icon_url,
         "as_user": False,
         "unfurl_links": False,
+        "unfurl_media": False,
         "text": msg,
     }
     data = {"payload": json.dumps(payload)}
