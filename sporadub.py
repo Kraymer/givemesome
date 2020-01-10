@@ -54,7 +54,7 @@ def notify_new_tracks(slack_url, tracks):
         if (not last_execution or track_added_at > last_execution):
             slack(
                 slack_url,
-                user=track["added_by"]["id"],
+                user="DJ {}".format(track["added_by"]["id"]),
                 icon_url=track["track"]["album"]["images"][0]["url"],
                 msg="<{}|{} - {}>".format(
                     track["track"]["external_urls"]["spotify"],
