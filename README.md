@@ -2,12 +2,17 @@
 
 ![Legendary Rodigan selecta](https://i.imgur.com/oCsl3oC.jpg)
 
+> **Give me some...** :
+>   1.  **... slack**: to give one a break
+>   2.  **... signal**: to give a DJ a loud appreciation as a gesture to salute his performance
+
+
 
 GiveMeSome is a slack "bot" that helps you build spotify collaborative playlist by posting notifications when songs get added.
 
-> Get notified when a colleague adds a tune  
-> Sharpen your arguments and select a better one  
-> Repeat  
+Get notified when a colleague adds a tune.  
+Argument and select a better one.  
+Repeat.
 
 # Installation
 
