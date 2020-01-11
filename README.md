@@ -21,11 +21,14 @@ Repeat.
 
 # Usage
 
-> Usage: sporadub.py [OPTIONS] USER PLAYLIST_URI SLACK_CHANNEL_URL  
->
-> USER is playlist owner username  
-> PLAYLIST_URI is spotify playlist uri, it starts by `spotify:playlist:`  
-> SLACK_CHANNEL_URL is a slack channel webhook url, it starts by `https://hooks.slack.com/services/`
+~~~
+Usage: givemesome.py [OPTIONS] USER PLAYLIST_URI SLACK_CHANNEL_URL  
+  Post slack notification when a song got added to playlist since last execution
+  
+  USER is playlist owner username  
+  PLAYLIST_URI is spotify playlist uri (starts by "spotify:playlist")  
+  SLACK_CHANNEL_URL is a slack channel webhook url (starts by "https://hooks.slack.com/services/")
+~~~
 
 ## Advanced usage: monitoring with cron
 
