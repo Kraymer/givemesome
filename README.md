@@ -9,6 +9,11 @@ GiveMeSome is a slack "bot" that helps you build spotify collaborative playlist 
 > Sharpen your arguments and select a better one  
 > Repeat  
 
+# Installation
+
+1. clone the repository
+2. fill in the required infos in settings.py *[TODO]*
+
 # Usage
 
 > Usage: sporadub.py [OPTIONS] USER PLAYLIST_URI SLACK_CHANNEL_URL  
@@ -17,15 +22,10 @@ GiveMeSome is a slack "bot" that helps you build spotify collaborative playlist 
 > PLAYLIST_URI is spotify playlist uri, it starts by `spotify:playlist:`  
 > SLACK_CHANNEL_URL is a slack channel webhook url, it starts by `https://hooks.slack.com/services/`
 
-# Installation
+# Dub-fi-dub usage
 
-1. clone the repository
-2. fill in the required infos in settings.py *[TODO]*
-3. add a cron job to check playlist state at regular intervals :
-    
-    > \# check every minute between 8am and 7pm  
-    > */1 8-19 * * 1-5 /home/ubuntu/givemesome/givemesome.py
-
+As its root, givemesome is a simple playlist notifier that don't have practical use.  
+Read the [_"Corporate Culture: Music"_ blog post]() to see how it can achieve greater goals when the appropriate environment is setup.
 
 
 # Screenshot
