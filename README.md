@@ -1,10 +1,10 @@
-## *GiveMeSome* -- bring the dub-fi-dub subculture to your slack channel!
+## *GiveMeSome* -- bring spotify collaborative playlist selection to slack!
 
 ![Legendary Rodigan selecta](https://i.imgur.com/oCsl3oC.jpg)
 
-> **Give me some...** :
->   1.  **... slack**: to give one a break
->   2.  **... signal**: to give a DJ a loud appreciation as a gesture to salute his performance
+> **/Give me some.../** :
+>   1. **... slack** *(expr.)*: to give one a break
+>   2. **... signal** *(expr.)*: to give a DJ a loud appreciation as a gesture to salute his performance
 
 
 
