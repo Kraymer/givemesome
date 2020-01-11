@@ -22,7 +22,7 @@ GiveMeSome is a slack "bot" that helps you build spotify collaborative playlist 
 > PLAYLIST_URI is spotify playlist uri, it starts by `spotify:playlist:`  
 > SLACK_CHANNEL_URL is a slack channel webhook url, it starts by `https://hooks.slack.com/services/`
 
-# Dub-fi-dub usage
+# Advanced usage: monitoring with cron
 
 As its root, givemesome is a simple playlist notifier that don't have practical use.  
 Read the [_"Corporate Culture: Music"_ blog post]() to see how it can achieve greater goals when the appropriate environment is setup.
