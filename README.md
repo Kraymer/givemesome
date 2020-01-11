@@ -6,7 +6,7 @@
 >   1. **... slack** *(expr.)*: to give one a break
 >   2. **... signal** *(expr.)*: to give a DJ a loud appreciation as a gesture to salute his performance
 
-
+# Description
 
 GiveMeSome is a slack "bot" that helps you build spotify collaborative playlist by posting notifications when songs get added.
 
