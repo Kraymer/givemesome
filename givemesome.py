@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 import pickle
 from datetime import datetime
 from dateutil import parser
@@ -10,17 +9,22 @@ import confuse
 import requests
 import spotipy
 import spotipy.util as util
+import yaml
 
 SESSION_FILENAME = "_session.py"
 __VERSION__ = "0.0.1"
 
-config = confuse.Configuration('givemesome', __name__)
-config.add({
+CONFIG = confuse.Configuration('givemesome', __name__)
+CONFIG_DEFAULTS = {
     "SPOTIPY_CLIENT_ID": "",
     "SPOTIPY_CLIENT_SECRET": "",
     "SPOTIPY_REDIRECT_URI": "",
     'compact_mode': False,
-})
+}
+CONFIG.add(CONFIG_DEFAULTS)
+CONFIG_ABSFILENAME = os.path.join(CONFIG.config_dir(),
+    confuse.CONFIG_FILENAME)
+
 
 def store_infos(tz):
     """Save pickle file
@@ -35,8 +39,8 @@ def load_infos():
     try:
         with open(SESSION_FILENAME, "rb") as outfile:
             return pickle.load(outfile)
-    except FileNotFoundError as e:
-        return
+    except FileNotFoundError:
+        pass
 
 
 def slack(slack_url, user, icon_url, msg):
@@ -46,11 +50,11 @@ def slack(slack_url, user, icon_url, msg):
         "username": user,
         "icon_url": icon_url,
         "as_user": False,
-        "unfurl_media": not config["compact_mode"].get(),
+        "unfurl_media": not CONFIG["compact_mode"].get(),
         "text": msg,
     }
     data = {"payload": json.dumps(payload)}
-    res = requests.post(slack_url, data, verify=False)
+    requests.post(slack_url, data, verify=False)
 
 
 def notify_new_tracks(slack_url, tracks):
@@ -70,6 +74,7 @@ def notify_new_tracks(slack_url, tracks):
                     track["track"]["name"],
                 ),
             )
+            return
 
     if tracks and track_added_at:
         store_infos(track_added_at.tzinfo)
@@ -97,14 +102,16 @@ def set_vars_env():
     """
     missing_keys = []
     for key in ("SPOTIPY_CLIENT_ID", "SPOTIPY_CLIENT_SECRET", "SPOTIPY_REDIRECT_URI"):
-        os.environ[key] = config[key].get()
+        os.environ[key] = CONFIG[key].get()
         if not os.environ[key]:
             missing_keys.append(key)
-    
+
     if missing_keys:
-        print("Error: please provide {}in {}".format(
-            ", ".join(missing_keys),
-            config.config_dir()))
+        if not os.path.exists(CONFIG_ABSFILENAME):
+            with open(CONFIG_ABSFILENAME, 'w') as f:
+                yaml.dump(CONFIG_DEFAULTS, f)
+        print("Error: please provide {} in {}".format(
+            ", ".join(missing_keys), CONFIG_ABSFILENAME))
         exit(1)
 
 
