@@ -19,6 +19,17 @@ Repeat.
 1. clone the repository
 2. fill in the required infos in settings.py *[TODO]*
 
+# Configuration
+
+Register an app as described on https://developer.spotify.com/documentation/general/guides/app-settings/.  
+Report the Client ID, Client Secret and Redirect Url in `~/.config/givemesome/config.yaml` like so :  
+
+~~~
+SPOTIPY_CLIENT_ID: "xxx"
+SPOTIPY_CLIENT_SECRET: "xxx"
+SPOTIPY_REDIRECT_URI: "xxx"
+~~~
+
 # Usage
 
 ~~~
