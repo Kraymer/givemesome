@@ -2,3 +2,4 @@ click
 spotipy
 python-dateutil
 requests
+confuse
