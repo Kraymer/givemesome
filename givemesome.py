@@ -1,10 +1,12 @@
 import json
+import os
 import sys
 import pickle
 from datetime import datetime
 from dateutil import parser
 
 import click
+import confuse
 import requests
 import spotipy
 import spotipy.util as util
@@ -12,6 +14,13 @@ import spotipy.util as util
 SESSION_FILENAME = "_session.py"
 __VERSION__ = "0.0.1"
 
+config = confuse.Configuration('givemesome', __name__)
+config.add({
+    "SPOTIPY_CLIENT_ID": "",
+    "SPOTIPY_CLIENT_SECRET": "",
+    "SPOTIPY_REDIRECT_URI": "",
+    'compact_mode': False,
+})
 
 def store_infos(tz):
     """Save pickle file
@@ -37,8 +46,7 @@ def slack(slack_url, user, icon_url, msg):
         "username": user,
         "icon_url": icon_url,
         "as_user": False,
-        "unfurl_links": False,
-        "unfurl_media": False,
+        "unfurl_media": not config["compact_mode"].get(),
         "text": msg,
     }
     data = {"payload": json.dumps(payload)}
@@ -62,7 +70,8 @@ def notify_new_tracks(slack_url, tracks):
                     track["track"]["name"],
                 ),
             )
-    if track_added_at:
+
+    if tracks and track_added_at:
         store_infos(track_added_at.tzinfo)
 
 
@@ -83,6 +92,22 @@ def strip_uri(ctx, param, value):
     return value.split(":")[-1]
 
 
+def set_vars_env():
+    """Set environment variables used for spotify auth
+    """
+    missing_keys = []
+    for key in ("SPOTIPY_CLIENT_ID", "SPOTIPY_CLIENT_SECRET", "SPOTIPY_REDIRECT_URI"):
+        os.environ[key] = config[key].get()
+        if not os.environ[key]:
+            missing_keys.append(key)
+    
+    if missing_keys:
+        print("Error: please provide {}in {}".format(
+            ", ".join(missing_keys),
+            config.config_dir()))
+        exit(1)
+
+
 @click.command(
     context_settings=dict(help_option_names=["-h", "--help"]),
     help=(
@@ -99,9 +124,9 @@ def strip_uri(ctx, param, value):
 @click.option("-v", "--verbose", count=True)
 @click.version_option(__VERSION__)
 def sporadub(user, playlist_uri, slack_url, verbose):
+    set_vars_env()
     token = auth(user)
     sp = spotipy.Spotify(auth=token)
-
     tracks = sp.user_playlist_tracks(user, playlist_id=playlist_uri)["items"]
     notify_new_tracks(slack_url, tracks)
 
