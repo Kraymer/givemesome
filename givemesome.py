@@ -36,11 +36,9 @@ def store_infos(tz):
 def load_infos():
     """Load pickle file
     """
-    try:
+    if os.path.exists(SESSION_FILENAME):
         with open(SESSION_FILENAME, "rb") as outfile:
             return pickle.load(outfile)
-    except FileNotFoundError:
-        pass
 
 
 def slack(slack_url, user, icon_url, msg):
@@ -74,7 +72,6 @@ def notify_new_tracks(slack_url, tracks):
                     track["track"]["name"],
                 ),
             )
-            return
 
     if tracks and track_added_at:
         store_infos(track_added_at.tzinfo)
