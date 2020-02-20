@@ -127,7 +127,7 @@ def set_vars_env():
 )
 @click.option("-v", "--verbose", count=True)
 @click.version_option(__VERSION__)
-def sporadub(user, playlist_uri, slack_url, verbose):
+def givemesome(user, playlist_uri, slack_url, verbose):
     set_vars_env()
     token = auth(user)
     sp = spotipy.Spotify(auth=token)
@@ -136,4 +136,4 @@ def sporadub(user, playlist_uri, slack_url, verbose):
 
 
 if __name__ == "__main__":
-    sporadub()
+    givemesome()
